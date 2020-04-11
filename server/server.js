@@ -2,6 +2,9 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 //const user = require('./routes/user');
+const auth = require('./routes/auth');
+const userRouter = require('./routes/user');
+//const bcrypt = require('bcrypt');
 
 const app = express();
 // load env var
@@ -24,11 +27,11 @@ app.use(cookieParser());
 const { User } = require('./models/user');
 
 // ------------- MIDDLEWARE --------------------
-const { auth } = require('./middleware/auth');
+//const { auth } = require('./middleware/auth');
 
-// ------------- USERS ---------------------
+// ------------- USERS AUTH---------------------
 
-app.get('/api/users/auth', auth, (req, res) => {
+/*app.get('/api/users/auth', auth, (req, res) => {
   res.status(200).json({
     isAdmin: req.user.role === 0 ? false : true,
     isAuth: true,
@@ -39,10 +42,10 @@ app.get('/api/users/auth', auth, (req, res) => {
     cart: req.user.cart,
     history: req.user.history,
   });
-});
+});*/
 
 //----------------- REGISTER --------------------
-app.post('/api/users/register', (req, res) => {
+/*app.post('/api/users/register', (req, res) => {
   const user = new User(req.body);
 
   user.save((err, doc) => {
@@ -51,17 +54,23 @@ app.post('/api/users/register', (req, res) => {
         success: false,
         err,
       });
+    const token = user.generateAuthToken();
     res.status(200).json({
       success: true,
       userdata: doc,
+      token: token,
     });
   });
-});
-//app.use('/api/users/login', user);
-
+});*/
 // --------------- ROUTES ---------------------
-// -------------------- LOGIN ---------------------
-app.post('/api/users/login', (req, res) => {
+
+app.use(userRouter);
+//app.use('/api/users/login', user);
+app.use('/api/users/auth', auth);
+
+//-------------------- LOGIN ---------------------//
+
+/*app.post('/api/users/login', (req, res) => {
   // find the email
   User.findOne({ email: req.body.email }, (err, user) => {
     if (!user) return res.json({ loginSuccess: false, message: 'Auth failed, email not found' }); // if user not found
@@ -80,17 +89,17 @@ app.post('/api/users/login', (req, res) => {
       loginSuccess: true,
     });
   });
-});
+});*/
 
 // ------------- LOGOUT -----------------------
-app.get('/api/user/logout', auth, (req, res) => {
+/*app.get('/api/users/logout', auth, (req, res) => {
   User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, doc) => {
     if (err) return res.json({ success: false, err });
     return res.status(200).send({
       success: true,
     });
   });
-});
+});*/
 
 // env variable port created
 const PORT = process.env.PORT || 5000;
