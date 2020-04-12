@@ -1,10 +1,8 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-//const user = require('./routes/user');
-const auth = require('./routes/auth');
+
 const userRouter = require('./routes/user');
-//const bcrypt = require('bcrypt');
 
 const app = express();
 // load env var
@@ -23,83 +21,7 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
-// ------------ MODELS --------------------
-const { User } = require('./models/user');
-
-// ------------- MIDDLEWARE --------------------
-//const { auth } = require('./middleware/auth');
-
-// ------------- USERS AUTH---------------------
-
-/*app.get('/api/users/auth', auth, (req, res) => {
-  res.status(200).json({
-    isAdmin: req.user.role === 0 ? false : true,
-    isAuth: true,
-    email: req.user.email,
-    name: req.user.name,
-    lastname: req.user.lastname,
-    role: req.user.role,
-    cart: req.user.cart,
-    history: req.user.history,
-  });
-});*/
-
-//----------------- REGISTER --------------------
-/*app.post('/api/users/register', (req, res) => {
-  const user = new User(req.body);
-
-  user.save((err, doc) => {
-    if (err)
-      return res.json({
-        success: false,
-        err,
-      });
-    const token = user.generateAuthToken();
-    res.status(200).json({
-      success: true,
-      userdata: doc,
-      token: token,
-    });
-  });
-});*/
-// --------------- ROUTES ---------------------
-
 app.use(userRouter);
-//app.use('/api/users/login', user);
-app.use('/api/users/auth', auth);
-
-//-------------------- LOGIN ---------------------//
-
-/*app.post('/api/users/login', (req, res) => {
-  // find the email
-  User.findOne({ email: req.body.email }, (err, user) => {
-    if (!user) return res.json({ loginSuccess: false, message: 'Auth failed, email not found' }); // if user not found
-  });
-
-  // check password
-  user.comparePassword(req.body.password, (err, isMatch) => {
-    if (!isMatch) return res.json({ loginSuccess: false, message: 'Wrong password' });
-  });
-
-  // generate a token
-  user.generateToken((err, user) => {
-    if (err) return res.status(400).send(err);
-    // store token as cookie
-    res.cookie('w_auth', user.token).status(200).json({
-      loginSuccess: true,
-    });
-  });
-});*/
-
-// ------------- LOGOUT -----------------------
-/*app.get('/api/users/logout', auth, (req, res) => {
-  User.findOneAndUpdate({ _id: req.user._id }, { token: '' }, (err, doc) => {
-    if (err) return res.json({ success: false, err });
-    return res.status(200).send({
-      success: true,
-    });
-  });
-});*/
 
 // env variable port created
 const PORT = process.env.PORT || 5000;
