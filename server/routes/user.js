@@ -1,9 +1,11 @@
 const express = require('express');
-const { User } = require('../models/user');
+const User = require('../models/user');
+const auth = require('../middleware/auth');
+
 const router = express.Router();
 
 router.post('/api/users/register', async (req, res) => {
-  // Create a new user
+  // Create a new user-register new user
   try {
     const user = new User(req.body);
     await user.save();
@@ -14,7 +16,7 @@ router.post('/api/users/register', async (req, res) => {
   }
 });
 
-router.post('api/users/login', async (req, res) => {
+router.post('/api/users/login', async (req, res) => {
   //Login a registered user
   try {
     const { email, password } = req.body;
@@ -29,4 +31,19 @@ router.post('api/users/login', async (req, res) => {
   }
 });
 
+// this route is to get the user profile
+router.get('/api/users/me', auth, async (req, res) => {
+  // View logged in user profile
+  res.send(req.user);
+});
+
+// generate a token
+/*user.generateToken((err, user) => {
+  if (err) return res.status(400).send(err);
+  // store token as cookie
+  res.cookie('w_auth', user.token).status(200).json({
+    loginSuccess: true,
+  });
+});
+});*/
 module.exports = router;
