@@ -1,8 +1,10 @@
 const express = require('express');
 const { User } = require('../models/user');
 const auth = require('../middleware/auth');
-
+const cookieParser = require('cookie-parser');
 const router = express.Router();
+
+router.use(cookieParser());
 
 //---------- USER AUTH -------------------
 router.get('/api/users/auth', auth, (req, res) => {
@@ -41,7 +43,10 @@ router.post('/api/users/login', async (req, res) => {
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' });
     }
     const token = await user.generateAuthToken();
-    res.send({ user, token });
+    // res.send({ user, token });
+    res.cookie('w_auth', user.token).status(200).json({
+      loginSuccess: true,
+    });
   } catch (error) {
     res.status(400).send(error);
   }
@@ -80,7 +85,6 @@ router.post('/api/users/me/logoutall', auth, async (req, res) => {
     res.status(500).send(error);
   }
 });
-
 // generate a token
 /*user.generateToken((err, user) => {
   if (err) return res.status(400).send(err);
@@ -89,6 +93,6 @@ router.post('/api/users/me/logoutall', auth, async (req, res) => {
     loginSuccess: true,
   });
 });
-});*/
+ });*/
 
 module.exports = router;
