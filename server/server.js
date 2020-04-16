@@ -2,9 +2,13 @@ const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
 
+// router imports
 const userRouter = require('./routes/user');
+const brandRouter = require('./routes/brand');
+const productRouter = require('./routes/product');
 
 const app = express();
+
 // load env var
 require('dotenv').config();
 
@@ -21,7 +25,10 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(cookieParser());
 
+// ----- ROUTER---------
 app.use(userRouter);
+app.use(brandRouter);
+app.use(productRouter);
 
 // env variable port created
 const PORT = process.env.PORT || 5000;
