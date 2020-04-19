@@ -13,7 +13,6 @@ const productSchema = mongoose.Schema(
     description: {
       required: true,
       type: String,
-
       maxLength: 100000,
     },
     price: {
@@ -59,11 +58,11 @@ const productSchema = mongoose.Schema(
     },
     images: {
       type: Array,
-      default: [], //
+      default: [],
     },
   },
-  { timestamps: true }, // when item was entered in database & when it was updated. Generated automatically by mongo when new product is generated
-);
+  { timestamps: true },
+); // when item was entered in database & when it was updated. Generated automatically by mongo when new product is generated
 
 const Product = mongoose.model('Product', productSchema);
 
