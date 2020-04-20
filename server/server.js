@@ -1,7 +1,7 @@
 const express = require('express');
 const cookieParser = require('cookie-parser');
 const mongoose = require('mongoose');
-
+const cors = require('cors');
 // router imports
 const userRouter = require('./routes/user');
 const brandRouter = require('./routes/brand');
@@ -19,6 +19,9 @@ mongoose.connect(process.env.DATABASE, {
   useCreateIndex: true,
   useUnifiedTopology: true,
 });
+
+// enable cors
+app.use(cors());
 
 // express body parser adding middleware
 app.use(express.urlencoded({ extended: true }));
