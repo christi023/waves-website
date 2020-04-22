@@ -1,3 +1,5 @@
+// this id where our functions are place for form
+// validate
 export const validate = (element, formData = []) => {
   let error = [true, ''];
 
@@ -17,6 +19,7 @@ export const validate = (element, formData = []) => {
   return error;
 };
 
+// update
 export const update = (element, formData, formName) => {
   // create new form data & mutate it
   const newFormData = { ...formData };
@@ -37,4 +40,24 @@ export const update = (element, formData, formName) => {
   newFormData[element.id] = newElement;
 
   return newFormData;
+};
+
+//generate Data
+export const generateData = (formData, formName) => {
+  let dataToSubmit = {};
+
+  for (let key in formData) {
+    dataToSubmit[key] = formData[key].value;
+  }
+  return dataToSubmit;
+};
+
+// isFormValid
+// loop and make sure they have valid keyword
+export const isFormValid = (formData, formName) => {
+  let formIsValid = true;
+  for (let key in formData) {
+    formIsValid = formData[key].valid && formIsValid;
+  }
+  return formIsValid;
 };
