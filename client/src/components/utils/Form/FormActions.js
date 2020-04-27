@@ -1,8 +1,9 @@
-// this id where our functions are place for form
+// this is where our functions are place for form
 // validate
 export const validate = (element, formData = []) => {
   let error = [true, ''];
 
+  // validation for email
   if (element.validation.email) {
     // equal to the value of the element
     const valid = /\S+@\S+\.\S+/.test(element.value);
@@ -10,6 +11,14 @@ export const validate = (element, formData = []) => {
     error = !valid ? [valid, message] : error;
   }
 
+  // validation for  password confirmation
+  if (element.validation.confirm) {
+    const valid = element.value.trim() === formData[element.validation.confirm].value;
+    const message = `${!valid ? 'Passwords do not match' : ''}`;
+    error = !valid ? [valid, message] : error;
+  }
+
+  // validation for required fields
   if (element.validation.required) {
     // equal to the value of the element
     const valid = element.value.trim() !== '';
@@ -47,7 +56,9 @@ export const generateData = (formData, formName) => {
   let dataToSubmit = {};
 
   for (let key in formData) {
-    dataToSubmit[key] = formData[key].value;
+    if (key !== 'confirmPassword') {
+      dataToSubmit[key] = formData[key].value;
+    }
   }
   return dataToSubmit;
 };
