@@ -4,7 +4,7 @@ const { User } = require('../models/user');
 const auth = async (req, res, next) => {
   // get token from request header. Token comes like "Bearer[space] token"- replace Bearer[space] with nothing('')
   const token = req.header('Authorization').replace('Bearer ', ''); // access token
- 
+
   const data = jwt.verify(token, process.env.SECRET);
   // use jwt.verify() to see if token receive is valid/was created
   try {
