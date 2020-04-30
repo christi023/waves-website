@@ -39,12 +39,13 @@ router.post('/api/users/login', async (req, res) => {
   try {
     const { email, password } = req.body;
     const user = await User.findByCredentials(email, password);
+
     if (!user) {
       return res.status(401).send({ error: 'Login failed! Check authentication credentials' });
     }
     const token = await user.generateAuthToken();
     // res.send({ user, token });
-    res.cookie('w_auth', user.token).status(200).json({
+    res.cookie('w_auth', token).status(200).json({
       loginSuccess: true,
     });
   } catch (error) {
