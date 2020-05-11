@@ -9,9 +9,25 @@ const MyButton = (props) => {
     switch (props.type) {
       case 'default':
         template = (
-          <Link className="link_default" to={props.linkTo} {...props.addStyles}>
+          <Link
+            className={!props.altClass ? 'link_default' : props.altClass}
+            to={props.linkTo}
+            {...props.addStyles}
+          >
             {props.title}
           </Link>
+        );
+        break;
+      case 'bag_link':
+        template = (
+          <div
+            className="bag_link"
+            onClick={() => {
+              props.runAction();
+            }}
+          >
+            <i className=" fas fa-shopping-bag"></i>
+          </div>
         );
         break;
       default:
