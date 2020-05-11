@@ -19,7 +19,6 @@ const HomePromotion = (props) => {
           background: `url(${promotion.img})`,
         }}
       >
-        {' '}
         <div className="tag title">{promotion.lineOne}</div>
         <div className="tag low_title">{promotion.lineTwo}</div>
         <div>
