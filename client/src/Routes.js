@@ -7,6 +7,7 @@ import Register from './components/Register/Register';
 import Shop from './components/Shop/Shop';
 // admin
 import UserDashboard from './components/UserDashboard/UserDashboard';
+import AddProduct from './components/UserDashboard/Admin/AddProduct';
 
 // HOC imports
 import Layout from './hoc/layout';
@@ -19,6 +20,7 @@ const Routes = () => {
     <Layout>
       <Switch>
         <Route path="/user/dashboard" exact component={Auth(UserDashboard, true)} />
+        <Route path="/admin/add_product" exact component={Auth(AddProduct, true)} />
 
         <Route path="/register" exact component={Auth(Register, false)} />
         <Route path="/register_login" exact component={Auth(Register_Login, false)} />
